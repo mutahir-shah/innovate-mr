@@ -1,0 +1,7 @@
+/node_modules
+/public/hot
+/vendor
+/.idea
+/.vagrant
+npm-debug.log
+.env
