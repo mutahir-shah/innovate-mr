@@ -13,7 +13,7 @@ class InnovateApi
     /**
      * Api Token found in InnovatemrAPI  
      *
-     * @example eyJhbGciOiJIUzI1NiIsInRshah5cCI6IkpXVCJ9.eyJpZCI6IjU5Njk0NDk0ODViYmE1NDUzMDY0MWM3ZCIsInVzcl9pZCI6IjIyOSIsInVzcl90eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE1MDAwNzEyMTJ9.rfgac_fQp6fmTUU9EyuydrzB82o60n_zaymjmABgcMHZY
+     * @example iIsInRshah5cCI6IkpXVCJ9.eyJpZCjmABgcMHZY
      * @var string
      */
     protected $APIToken   = NULL;

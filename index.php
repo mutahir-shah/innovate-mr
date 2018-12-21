@@ -8,7 +8,7 @@ echo InnovateApi::world();
 
 
 $options['api_mode']     = "sandbox";
- $options['api_token']    = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5Njk0NDk0ODViYmE1NDUzMDY0MWM3ZCIsInVzcl9pZCI6IjIyOSIsInVzcl90eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE1MDAwNzEyMTJ9.rfgac_fQp6fmTUU9EyuydrzB82o60n_ymjmABgcMHZY";
+ $options['api_token']    = "yourapitokenkey";
  $api_service  = "getAnswersByQuesKey/GENDER";
 
  $InnovatemrAPI = new InnovateApi($options);
