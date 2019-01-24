@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL);
+    error_reporting(E_ALL);
     ini_set("display_errors", "On");
   require_once __DIR__ . '/vendor/autoload.php';  
   use InnovateMR\InnovateApi; 
@@ -7,16 +7,22 @@ error_reporting(E_ALL);
 class demo {
   
   private $options;
-  private $connectionOptions;
+  public $connectionOptions;
   private $InnovatemrAPI;
 
   public function __construct()
   {
-    $optionsArray['api_mode']     = "sandbox";
-   $optionsArray['api_token']    = "";
-   $this->options = $optionsArray;
+   $optionsArray['api_mode']    = "sandbox";
+   $optionsArray['api_token']    = " ";
 
-   $this->InnovatemrAPI = new InnovateApi($this->options);
+   $optionsArray['dbhost']     = 'localhost';
+   $optionsArray['dbuser']     = 'root';
+   $optionsArray['dbpassword'] = 'root';
+   $optionsArray['dbname']     = 'yousafdb';
+
+   $this->options              = $optionsArray;
+   $this->InnovatemrAPI        = new InnovateApi($this->options);
+   $this->connectionOptions    = new DbConnection($this->options);
 
   }
     
@@ -27,13 +33,42 @@ class demo {
                 $result   = $this->InnovatemrAPI->APIcallGet($api_service);
             }
             else {
-               $result   = $this->InnovatemrAPI->APIcallGet('getQuestionsByCategory/NETHERLANDS/DUTCH');  
+               $result   = $this->InnovatemrAPI->APIcallGet('getQuestionsByCategory/US/ENGLISH');  
           }
-      echo '<pre>';
-      var_export($result);
+
+          return $result;
     }
+
   
 }
-$api_service = @$_REQUEST['method'];
-$obj = new demo;
-$obj->get($api_service);
+    $api_service = @$_REQUEST['method'];
+    $obj         = new demo;
+    $result       = $obj->get($api_service);
+    $questionsArray = array();
+      foreach($result as $question)
+            {
+               $values = array( $question->QuestionId,
+                                $question->QuestionKey,
+                             addslashes($question->QuestionText),
+                             $question->QuestionType,
+                             $question->Category[0],
+                             date("y-m-d H:i:s")
+                                       );
+               $questionsArray [] = $obj->connectionOptions->createColumnValues($values); 
+            }// END FOREACH. 
+ // ksort($questionsArray);
+  $questionsArray = array_chunk($questionsArray,400);
+  $columns        = array( 
+                  'questionId' ,
+                  'questionKey',
+                  'questionText',
+                  'questionType',
+                  'questionCategory',
+                  'created_at'
+              ); 
+foreach($questionsArray as $values){
+   $val = implode(",",$values);  
+    $res = $obj->connectionOptions->bulkInsert('nl_inovate_survey_questions', $columns, $val); 
+}
+
+

@@ -95,6 +95,41 @@ class DbConnection
 
     }
 
+
+    public function bulkInsert($table, $cols = array(),$val = '') {  
+        $query   = "INSERT IGNORE INTO " . "`$table`" . " ("; 
+        $columns = implode(', ', $cols); 
+        $query  .= $columns . ") VALUES ".$val; 
+        $dbResult = $this->dbConnection->query($query);
+
+        if($dbResult){
+            $last_id = $this->dbConnection->insert_id;
+            $result  = array('status'=>'success','lastInsertedId'=>$last_id,'msg'=>'Record Inserted='.$dbResult);
+        }
+        else 
+        { 
+            $result = array('status'=>'fail','lastInsertedId'=>0,'msg'=>'There is an error ='.$this->dbConnection->error.$dbResult);
+        } 
+        return $result;
+      }
+
+
+
+      public function createColumnValues($values = array()) {   
+        $query  = "";
+        $query .=   "(";
+        $val    = "";
+
+       $val   = implode(', ', array_map(function($vals){return sprintf("'%s'", $vals);}, $values)); 
+      
+       /* foreach ($values as $key => $valu) {
+            $val .= "'" . $valu . "',";
+        }*/
+          $query .= $val . ") ";
+        return $query;
+      }
+
+
     public function select($table, $columns, $where = "", $return_format = 1) { 
         $this->dbConnection->query("SET character_set_results=utf8");
         $str = "SELECT $columns FROM $table $where";  
