@@ -13,7 +13,7 @@ class demo {
   public function __construct()
   {
    $optionsArray['api_mode']    = "sandbox";
-   $optionsArray['api_token']    = " ";
+   $optionsArray['api_token']    = "";
 
    $optionsArray['dbhost']     = 'localhost';
    $optionsArray['dbuser']     = 'root';
